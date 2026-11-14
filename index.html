@@ -163,6 +163,8 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
 .plus b{display:block;font-size:19px;font-weight:900;color:var(--ink)}
 .plus span{display:block;margin-top:6px;color:var(--ink2)}
 .plus strong{color:var(--red)}
+.cerro{margin:12px 0 0;font-size:15px;color:#24363b;background:#E9EFEC;border-radius:12px;padding:10px 12px}
+.cerro a{color:#0a6e52;font-weight:800}
 </style>
 </head>
 <body>
@@ -232,6 +234,7 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
           <p style="margin:14px 0 0;font-weight:800" data-ctxt>Este precio se acaba en:</p>
           <div class="conteo" role="timer" aria-live="off"><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>seg</span></div></div>
         </div>
+        <p class="cerro" data-cerro hidden>El precio de lanzamiento de USD 33 ya cerró para ti. ¿Lo querías? <a href="https://www.instagram.com/hernanmarulanda20/" target="_blank" rel="noopener">Escríbeme por Instagram</a> y miro si te lo puedo reactivar.</p>
         <a class="btn cta" id="btnCompra" href="#">Quiero entrar ahora</a>
         <p class="nota">Pago único en Hotmart. Acceso al instante en tu correo.</p>
         <div class="gar"><b>7<br>días</b><span><strong>Garantía total.</strong> Si no es para ti, pides el reembolso en Hotmart y listo.</span></div>
@@ -285,6 +288,7 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
   var abierto=true,barra=document.getElementById("barra"),K="iavp_precio_v1",mem=null;
   function leer(){try{var x=JSON.parse(localStorage.getItem(K));if(x&&x.t0)return x;}catch(e){}return mem;}
   function guardar(x){mem=x;try{localStorage.setItem(K,JSON.stringify(x));}catch(e){}}
+  if(location.hash==="#reiniciar"){try{localStorage.removeItem(K);}catch(e){}history.replaceState(null,"",location.pathname);}
   var E=leer();if(!E){E={t0:Date.now(),r:0,v:0};guardar(E);}
   var D1=(C.MINUTOS||15)*6e4,D2=(C.MINUTOS_RESCATE||10)*6e4;
   function p2(n){return (n<10?"0":"")+n;}
@@ -295,9 +299,10 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
     document.querySelectorAll("[data-precio]").forEach(function(e){e.textContent=lanz?(C.PRECIO||"USD 33"):(C.PRECIO_NORMAL||"USD 47");});
     document.querySelectorAll("[data-antes],[data-ahorro]").forEach(function(e){e.hidden=!lanz;});
     document.querySelectorAll("[data-conteo]").forEach(function(e){e.hidden=!lanz;});
+    document.querySelectorAll("[data-cerro]").forEach(function(e){e.hidden=lanz;});
     var t=document.querySelector("[data-ctxt]");if(t)t.textContent=F.f==="C"?"Última oportunidad. Se acaba en:":"Este precio se acaba en:";
     if(venta)document.getElementById("btnCompra").href=lanz?C.ENLACE_COMPRA:(C.ENLACE_NORMAL||C.ENLACE_COMPRA);
-    document.getElementById("franjaL").textContent=lanz?(F.f==="C"?"Última oportunidad: se acaba en":"Tu precio de lanzamiento se acaba en"):"El precio de lanzamiento ya se acabó";
+    document.getElementById("franjaL").textContent=lanz?(F.f==="C"?"Última oportunidad: se acaba en":"Tu precio de lanzamiento se acaba en"):"Acceso completo al curso";
     if(!lanz)document.getElementById("franjaT").textContent="";
   }
   function tic(){
