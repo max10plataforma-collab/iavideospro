@@ -10,9 +10,13 @@
 window.PAGINA = {
   MODO: "venta",            // "lista" = lista de fundadores · "venta" = botón de compra
   ENLACE_LISTA: "",         // WhatsApp o formulario. Vacío = pide responder LISTA por Instagram
-  ENLACE_COMPRA: "https://pay.hotmart.com/X108494329U",        // enlace de pago de Hotmart
+  ENLACE_COMPRA: "https://pay.hotmart.com/X108494329U?off=4qwk6gw6",        // oferta de lanzamiento (USD 33)
+  ENLACE_NORMAL: "https://pay.hotmart.com/X108494329U?off=9rudqk7y",        // oferta normal (USD 47)
   PRECIO: "USD 33",
-  FECHA_CIERRE: "2026-11-20T23:59:00-05:00"          // fecha y hora REAL en que cierran las inscripciones, hora de Colombia. Ej: "2026-11-27T23:59:00-05:00". Vacío = sin contador
+  PRECIO_NORMAL: "USD 47",
+  MINUTOS: 15,              // minutos de precio de lanzamiento por visitante (no se reinicia al recargar)
+  MINUTOS_RESCATE: 10,      // segunda y última oportunidad, una sola vez
+  FECHA_CIERRE: ""          // fecha y hora REAL en que cierran las inscripciones, hora de Colombia. Ej: "2026-11-27T23:59:00-05:00". Vacío = sin contador
 };
 </script>
 <style>
@@ -138,6 +142,19 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
 .oferta::after{content:"";position:absolute;inset:-30px;border-radius:50px;z-index:-2;background:radial-gradient(closest-side,rgba(255,194,26,.28),transparent);filter:blur(20px)}
 .oferta .precio{background:linear-gradient(180deg,#0D191D 30%,#1BA57C);-webkit-background-clip:text;color:transparent}
 @media(prefers-reduced-motion:reduce){.aura,.video::before,.chip,.cinta div,.oferta::before{animation:none}h1 span.l>i{transform:none;animation:none}h1 b::before{transform:none;animation:none}.rev,.check li{opacity:1;transform:none;transition:none}.cel{transform:none!important}}
+
+.resc{position:fixed;inset:0;z-index:90;background:rgba(4,12,14,.82);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
+.resc[hidden]{display:none}
+.rescC{background:#F4F7F5;color:#0D191D;border-radius:22px;padding:26px 22px;max-width:380px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:rescIn .45s cubic-bezier(.2,1.2,.3,1)}
+.rescC h2{color:#0D191D;margin:4px 0 10px;font-size:34px}
+.rescC p{margin:0 0 14px;color:#24363b}
+.rescK{font-family:var(--serif);font-style:italic;color:#0c8a66!important;margin:0!important}
+.rescC button{background:none;border:0;color:#5b6f73;font:inherit;font-size:14px;margin-top:12px;text-decoration:underline;cursor:pointer}
+@keyframes rescIn{from{transform:translateY(24px) scale(.94);opacity:0}to{transform:none;opacity:1}}
+#franjaT{font-variant-numeric:tabular-nums}
+.conteo.urg b{animation:late 1s ease-in-out infinite}
+@keyframes late{50%{transform:scale(1.08)}}
+@media (prefers-reduced-motion:reduce){.rescC,.conteo.urg b{animation:none}}
 </style>
 </head>
 <body>
@@ -199,12 +216,12 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
       </div>
       <div data-modo="venta" hidden>
         <h2 style="color:#111">Entra al primer grupo.</h2>
-        <p class="antes">Precio normal <s>USD 90</s></p>
+        <p class="antes" data-antes>Precio normal <s>USD 47</s></p>
         <div class="precio" data-precio>USD 33</div>
-        <span class="ahorro">Lanzamiento · ahorras USD 57</span>
+        <span class="ahorro" data-ahorro>Lanzamiento · ahorras USD 14</span>
         <div data-conteo hidden>
-          <p style="margin:14px 0 0;font-weight:800">Este precio se acaba en:</p>
-          <div class="conteo" role="timer" aria-live="off"><div><b data-d>0</b><span>días</span></div><div><b data-h>00</b><span>horas</span></div><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>seg</span></div></div>
+          <p style="margin:14px 0 0;font-weight:800" data-ctxt>Este precio se acaba en:</p>
+          <div class="conteo" role="timer" aria-live="off"><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>seg</span></div></div>
         </div>
         <a class="btn cta" id="btnCompra" href="#">Quiero entrar ahora</a>
         <p class="nota">Pago único en Hotmart. Acceso al instante en tu correo.</p>
@@ -220,38 +237,69 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
     <details><summary>¿Pago algo más?</summary><p>El curso es un pago único. Claude se empieza gratis; para hacer videos puede hacer falta su plan pago (USD 20 al mes, se le paga a Anthropic). La voz clonada es opcional (ElevenLabs, desde USD 1 el primer mes).</p></details>
     <details><summary>Nunca he usado inteligencia artificial</summary><p>Arranca desde crear la cuenta e instalar la aplicación.</p></details>
     <details><summary>¿Y si no puedo ir a las sesiones en vivo?</summary><p>Quedan grabadas. Las fechas se avisan en el grupo de WhatsApp.</p></details>
-    <details><summary>¿Por qué cierra el 20 de noviembre?</summary><p>Porque las sesiones en vivo son para este grupo. El siguiente grupo entra a USD 90.</p></details>
+    <details><summary>¿Por qué sube el precio?</summary><p>USD 33 es el precio de lanzamiento y tiene tiempo limitado. Cuando se acaba, el curso queda en USD 47, que es su precio normal.</p></details>
   </section>
 
   <footer>
     <p>Producto independiente. No está afiliado, patrocinado ni avalado por Anthropic. No se prometen ingresos, seguidores ni vistas: lo que aprendes es a hacer los videos.</p>
   </footer>
 </div>
-<div class="barra" id="barra"><span>El lanzamiento se acaba en<b id="franjaT"></b></span><a class="btn cta" href="#oferta">Quiero entrar</a></div>
+<div class="resc" id="resc" hidden role="dialog" aria-modal="true" aria-labelledby="rescT"><div class="rescC">
+  <p class="rescK">Estuviste aquí</p>
+  <h2 id="rescT">Esto es para ti.</h2>
+  <p>Te reactivo el precio de lanzamiento <b>una sola vez</b>: <b>USD 33</b> durante <b><span id="rescM">10</span> minutos</b>. Después queda en USD 47.</p>
+  <a class="btn cta" id="rescSi" href="#oferta">Reactivar mi precio</a>
+  <button type="button" id="rescNo">No, gracias</button>
+</div></div>
+<div class="barra" id="barra"><span><span id="franjaL">Tu precio de lanzamiento se acaba en</span><b id="franjaT"></b></span><a class="btn cta" href="#oferta">Quiero entrar</a></div>
 <script>
 (function(){
   var C=window.PAGINA||{};
-  document.querySelectorAll("[data-precio]").forEach(function(e){e.textContent=C.PRECIO||"USD 33";});
+  
   var venta=C.MODO==="venta"&&C.ENLACE_COMPRA;
   document.querySelector('[data-modo="lista"]').hidden=!!venta;
   document.querySelector('[data-modo="venta"]').hidden=!venta;
-  if(venta){document.getElementById("btnCompra").href=C.ENLACE_COMPRA;}
+  if(venta){}
   else if(C.ENLACE_LISTA){var b=document.getElementById("btnLista");b.href=C.ENLACE_LISTA;b.target="_blank";b.rel="noopener";b.hidden=false;document.getElementById("sinEnlace").hidden=true;}
-  // Contador real hasta FECHA_CIERRE
-  var fin=C.FECHA_CIERRE?new Date(C.FECHA_CIERRE).getTime():NaN,abierto=true,barra=document.getElementById("barra");
+  // Precio de lanzamiento por visitante: MINUTOS desde la primera visita. No se reinicia al recargar.
+  // Al vencer, el precio y el botón pasan a la oferta normal. Hay un único rescate de MINUTOS_RESCATE.
+  var abierto=true,barra=document.getElementById("barra"),K="iavp_precio_v1",mem=null;
+  function leer(){try{var x=JSON.parse(localStorage.getItem(K));if(x&&x.t0)return x;}catch(e){}return mem;}
+  function guardar(x){mem=x;try{localStorage.setItem(K,JSON.stringify(x));}catch(e){}}
+  var E=leer();if(!E){E={t0:Date.now(),r:0,v:0};guardar(E);}
+  var D1=(C.MINUTOS||15)*6e4,D2=(C.MINUTOS_RESCATE||10)*6e4;
   function p2(n){return (n<10?"0":"")+n;}
+  function fase(){var n=Date.now();if(n<E.t0+D1)return{f:"A",fin:E.t0+D1};if(E.r&&n<E.r+D2)return{f:"C",fin:E.r+D2};return{f:E.r?"D":"B",fin:0};}
+  var ultima="";
+  function pintar(F){
+    var lanz=F.f==="A"||F.f==="C";
+    document.querySelectorAll("[data-precio]").forEach(function(e){e.textContent=lanz?(C.PRECIO||"USD 33"):(C.PRECIO_NORMAL||"USD 47");});
+    document.querySelectorAll("[data-antes],[data-ahorro]").forEach(function(e){e.hidden=!lanz;});
+    document.querySelectorAll("[data-conteo]").forEach(function(e){e.hidden=!lanz;});
+    var t=document.querySelector("[data-ctxt]");if(t)t.textContent=F.f==="C"?"Última oportunidad. Se acaba en:":"Este precio se acaba en:";
+    if(venta)document.getElementById("btnCompra").href=lanz?C.ENLACE_COMPRA:(C.ENLACE_NORMAL||C.ENLACE_COMPRA);
+    document.getElementById("franjaL").textContent=lanz?(F.f==="C"?"Última oportunidad: se acaba en":"Tu precio de lanzamiento se acaba en"):"El precio de lanzamiento ya se acabó";
+    if(!lanz)document.getElementById("franjaT").textContent="";
+  }
   function tic(){
-    var r=fin-Date.now();
-    if(!(r>0)){
-      if(!isNaN(fin)){abierto=false;barra.classList.remove("ver");document.querySelector(".oferta").innerHTML='<h2 style="color:#0D191D">Este grupo ya cerró.</h2><p>Escríbeme por Instagram y te aviso cuando abra el siguiente.</p>';}
-      document.querySelectorAll("[data-conteo]").forEach(function(e){e.hidden=true;});return false;}
-    var d=Math.floor(r/864e5),h=Math.floor(r%864e5/36e5),m=Math.floor(r%36e5/6e4),s=Math.floor(r%6e4/1e3);
-    document.querySelectorAll("[data-conteo]").forEach(function(e){e.hidden=false;e.querySelector("[data-d]").textContent=d;e.querySelector("[data-h]").textContent=p2(h);e.querySelector("[data-m]").textContent=p2(m);e.querySelector("[data-s]").textContent=p2(s);});
-    document.getElementById("franjaT").textContent=(d?d+" d ":"")+p2(h)+":"+p2(m)+":"+p2(s);return true;}
-  if(tic()){var iv=setInterval(function(){if(!tic())clearInterval(iv);},1000);}
+    var F=fase();if(F.f!==ultima){ultima=F.f;pintar(F);}
+    if(F.fin){var r=Math.max(0,F.fin-Date.now()),m=Math.floor(r/6e4),s=Math.floor(r%6e4/1e3);
+      document.querySelectorAll("[data-conteo]").forEach(function(e){e.querySelector("[data-m]").textContent=p2(m);e.querySelector("[data-s]").textContent=p2(s);e.querySelector(".conteo").classList.toggle("urg",r<12e4);});
+      document.getElementById("franjaT").textContent=p2(m)+":"+p2(s);}
+  }
+  tic();setInterval(tic,1000);
+  // Rescate: se ofrece una sola vez, cuando la persona ya perdió el precio y va de salida o regresa.
+  var resc=document.getElementById("resc");document.getElementById("rescM").textContent=C.MINUTOS_RESCATE||10;
+  function ofrecer(){if(!venta||fase().f!=="B"||E.v||!resc.hidden)return;E.v=1;guardar(E);resc.hidden=false;}
+  document.getElementById("rescSi").addEventListener("click",function(){E.r=Date.now();guardar(E);resc.hidden=true;tic();});
+  document.getElementById("rescNo").addEventListener("click",function(){resc.hidden=true;});
+  document.documentElement.addEventListener("mouseleave",function(e){if(e.clientY<=0)ofrecer();});
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)ofrecer();});
+  var yPrev=scrollY,tPrev=Date.now();addEventListener("scroll",function(){var n=Date.now(),v=(yPrev-scrollY)/Math.max(1,n-tPrev);if(v>2.2&&scrollY<innerHeight)ofrecer();yPrev=scrollY;tPrev=n;},{passive:true});
+  if(fase().f==="B")setTimeout(ofrecer,2500);
   // La barra con el botón aparece después de las muestras y se esconde al llegar a la oferta
   var m=document.getElementById("muestras"),o=document.getElementById("oferta");
-  function ver(){var paso=m.getBoundingClientRect().bottom<innerHeight*.6,en=o.getBoundingClientRect().top<innerHeight*.75&&o.getBoundingClientRect().bottom>0;barra.classList.toggle("ver",abierto&&!!venta&&paso&&!en);}
+  function ver(){var paso=m.getBoundingClientRect().bottom<innerHeight*.6,en=o.getBoundingClientRect().top<innerHeight*.75&&o.getBoundingClientRect().bottom>0;barra.classList.toggle("ver",abierto&&!!venta&&!en);}
   addEventListener("scroll",ver,{passive:true});ver();
 })();
 </script>
