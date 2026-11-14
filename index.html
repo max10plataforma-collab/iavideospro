@@ -14,7 +14,8 @@ window.PAGINA = {
   ENLACE_NORMAL: "https://pay.hotmart.com/X108494329U?off=9rudqk7y",        // oferta normal (USD 47)
   PRECIO: "USD 33",
   PRECIO_NORMAL: "USD 47",
-  MINUTOS: 15,              // minutos de precio de lanzamiento por visitante (no se reinicia al recargar)
+  MINUTOS: 0,              // 0 = precio fijo, sin contador. Con minutos > 0 vuelve el contador por visitante
+  _MIN_ANTES: 15,              // minutos de precio de lanzamiento por visitante (no se reinicia al recargar)
   MINUTOS_RESCATE: 10,      // segunda y última oportunidad, una sola vez
   FECHA_CIERRE: ""          // fecha y hora REAL en que cierran las inscripciones, hora de Colombia. Ej: "2026-11-27T23:59:00-05:00". Vacío = sin contador
 };
@@ -249,7 +250,7 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
     <details><summary>¿Pago algo más?</summary><p>El curso es un pago único. Claude se empieza gratis; para hacer videos puede hacer falta su plan pago (USD 20 al mes, se le paga a Anthropic). La voz clonada es opcional (ElevenLabs, desde USD 1 el primer mes).</p></details>
     <details><summary>Nunca he usado inteligencia artificial</summary><p>Arranca desde crear la cuenta e instalar la aplicación.</p></details>
     <details><summary>¿Y si no puedo ir a las sesiones en vivo?</summary><p>Quedan grabadas. Las fechas se avisan en el grupo de WhatsApp.</p></details>
-    <details><summary>¿Por qué sube el precio?</summary><p>USD 33 es el precio de lanzamiento y tiene tiempo limitado. Cuando se acaba, el curso queda en USD 47, que es su precio normal.</p></details>
+    <details><summary>¿Cuánto cuesta?</summary><p>USD 33, un solo pago. Sin mensualidades del curso y con garantía de 7 días.</p></details>
   </section>
 
   <footer>
@@ -269,7 +270,7 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
   <p>Y este es el mejor momento: <b>ya no tienes que hacerlo todo tú.</b></p>
   <p>Te sirve para tu marca personal, para tu negocio o para ofrecerle estos videos a otras empresas.</p>
   <p>La inversión es muy poca para todo lo que vas a aprender.</p>
-  <p style="font-weight:800;margin-bottom:10px">Tu precio de lanzamiento se acaba en <span id="salT2" style="font-variant-numeric:tabular-nums"></span></p>
+  <p style="font-weight:800;margin-bottom:10px" id="salP">Tu precio de lanzamiento se acaba en <span id="salT2" style="font-variant-numeric:tabular-nums"></span></p>
   <a class="btn cta" id="salSi" href="#oferta">Ver la oferta</a>
   <button type="button" id="salNo">Seguir mirando</button>
 </div></div>
@@ -292,17 +293,18 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
   var E=leer();if(!E){E={t0:Date.now(),r:0,v:0};guardar(E);}
   var D1=(C.MINUTOS||15)*6e4,D2=(C.MINUTOS_RESCATE||10)*6e4;
   function p2(n){return (n<10?"0":"")+n;}
-  function fase(){var n=Date.now();if(n<E.t0+D1)return{f:"A",fin:E.t0+D1};if(E.r&&n<E.r+D2)return{f:"C",fin:E.r+D2};return{f:E.r?"D":"B",fin:0};}
+  var FIJO=!(C.MINUTOS>0);
+  function fase(){if(FIJO)return{f:"F",fin:0};var n=Date.now();if(n<E.t0+D1)return{f:"A",fin:E.t0+D1};if(E.r&&n<E.r+D2)return{f:"C",fin:E.r+D2};return{f:E.r?"D":"B",fin:0};}
   var ultima="";
   function pintar(F){
-    var lanz=F.f==="A"||F.f==="C";
+    var lanz=F.f==="A"||F.f==="C"||F.f==="F";
     document.querySelectorAll("[data-precio]").forEach(function(e){e.textContent=lanz?(C.PRECIO||"USD 33"):(C.PRECIO_NORMAL||"USD 47");});
-    document.querySelectorAll("[data-antes],[data-ahorro]").forEach(function(e){e.hidden=!lanz;});
-    document.querySelectorAll("[data-conteo]").forEach(function(e){e.hidden=!lanz;});
+    document.querySelectorAll("[data-antes],[data-ahorro]").forEach(function(e){e.hidden=!lanz||FIJO;});
+    document.querySelectorAll("[data-conteo]").forEach(function(e){e.hidden=!lanz||FIJO;});
     document.querySelectorAll("[data-cerro]").forEach(function(e){e.hidden=lanz;});
     var t=document.querySelector("[data-ctxt]");if(t)t.textContent=F.f==="C"?"Última oportunidad. Se acaba en:":"Este precio se acaba en:";
     if(venta)document.getElementById("btnCompra").href=lanz?C.ENLACE_COMPRA:(C.ENLACE_NORMAL||C.ENLACE_COMPRA);
-    document.getElementById("franjaL").textContent=lanz?(F.f==="C"?"Última oportunidad: se acaba en":"Tu precio de lanzamiento se acaba en"):"Acceso completo al curso";
+    document.getElementById("franjaL").textContent=FIJO?"Videos con IA, con tu marca y tu voz":lanz?(F.f==="C"?"Última oportunidad: se acaba en":"Tu precio de lanzamiento se acaba en"):"Acceso completo al curso";
     if(!lanz)document.getElementById("franjaT").textContent="";
   }
   function tic(){
@@ -311,6 +313,7 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
       document.querySelectorAll("[data-conteo]").forEach(function(e){e.querySelector("[data-m]").textContent=p2(m);e.querySelector("[data-s]").textContent=p2(s);e.querySelector(".conteo").classList.toggle("urg",r<12e4);});
       document.getElementById("franjaT").textContent=p2(m)+":"+p2(s);document.getElementById("salT2").textContent=p2(m)+":"+p2(s);}
   }
+  if(FIJO){var sp=document.getElementById("salP");sp.textContent="Pago único de USD 33, con garantía de 7 días.";}
   tic();setInterval(tic,1000);
   // Rescate: se ofrece una sola vez, cuando la persona ya perdió el precio y va de salida o regresa.
   var resc=document.getElementById("resc");document.getElementById("rescM").textContent=C.MINUTOS_RESCATE||10;
@@ -321,7 +324,7 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
     if(!venta||!resc.hidden||!sal.hidden)return;var f=fase().f;
     if(f==="B"&&!E.v){E.v=1;guardar(E);resc.hidden=false;return;}
     // Mientras el precio sigue vivo: un solo aviso al ir de salida, y no en los primeros segundos.
-    if(f==="A"&&!E.a&&Date.now()-t0pag>8000){var o=document.getElementById("oferta").getBoundingClientRect();if(o.top<innerHeight&&o.bottom>0)return;E.a=1;guardar(E);sal.hidden=false;}
+    if((f==="A"||f==="F")&&!E.a&&Date.now()-t0pag>8000){var o=document.getElementById("oferta").getBoundingClientRect();if(o.top<innerHeight&&o.bottom>0)return;E.a=1;guardar(E);sal.hidden=false;}
   }
   document.getElementById("rescSi").addEventListener("click",function(){E.r=Date.now();guardar(E);resc.hidden=true;tic();});
   document.getElementById("rescNo").addEventListener("click",function(){resc.hidden=true;});
