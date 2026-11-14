@@ -251,6 +251,16 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
   <a class="btn cta" id="rescSi" href="#oferta">Reactivar mi precio</a>
   <button type="button" id="rescNo">No, gracias</button>
 </div></div>
+<div class="resc" id="sal" hidden role="dialog" aria-modal="true" aria-labelledby="salT"><div class="rescC">
+  <p class="rescK">Antes de irte</p>
+  <h2 id="salT" style="font-size:28px">Sabes que quieres aprender esto.</h2>
+  <p>Y este es el mejor momento: <b>ya no tienes que hacerlo todo tú.</b></p>
+  <p>Te sirve para tu marca personal, para tu negocio o para ofrecerle estos videos a otras empresas.</p>
+  <p>La inversión es muy poca para todo lo que vas a aprender.</p>
+  <p style="font-weight:800;margin-bottom:10px">Tu precio de lanzamiento se acaba en <span id="salT2" style="font-variant-numeric:tabular-nums"></span></p>
+  <a class="btn cta" id="salSi" href="#oferta">Ver la oferta</a>
+  <button type="button" id="salNo">Seguir mirando</button>
+</div></div>
 <div class="barra" id="barra"><span><span id="franjaL">Tu precio de lanzamiento se acaba en</span><b id="franjaT"></b></span><a class="btn cta" href="#oferta">Quiero entrar</a></div>
 <script>
 (function(){
@@ -285,12 +295,20 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
     var F=fase();if(F.f!==ultima){ultima=F.f;pintar(F);}
     if(F.fin){var r=Math.max(0,F.fin-Date.now()),m=Math.floor(r/6e4),s=Math.floor(r%6e4/1e3);
       document.querySelectorAll("[data-conteo]").forEach(function(e){e.querySelector("[data-m]").textContent=p2(m);e.querySelector("[data-s]").textContent=p2(s);e.querySelector(".conteo").classList.toggle("urg",r<12e4);});
-      document.getElementById("franjaT").textContent=p2(m)+":"+p2(s);}
+      document.getElementById("franjaT").textContent=p2(m)+":"+p2(s);document.getElementById("salT2").textContent=p2(m)+":"+p2(s);}
   }
   tic();setInterval(tic,1000);
   // Rescate: se ofrece una sola vez, cuando la persona ya perdió el precio y va de salida o regresa.
   var resc=document.getElementById("resc");document.getElementById("rescM").textContent=C.MINUTOS_RESCATE||10;
-  function ofrecer(){if(!venta||fase().f!=="B"||E.v||!resc.hidden)return;E.v=1;guardar(E);resc.hidden=false;}
+  var sal=document.getElementById("sal"),t0pag=Date.now();
+  function cierraSal(){sal.hidden=true;}
+  document.getElementById("salSi").addEventListener("click",cierraSal);document.getElementById("salNo").addEventListener("click",cierraSal);
+  function ofrecer(){
+    if(!venta||!resc.hidden||!sal.hidden)return;var f=fase().f;
+    if(f==="B"&&!E.v){E.v=1;guardar(E);resc.hidden=false;return;}
+    // Mientras el precio sigue vivo: un solo aviso al ir de salida, y no en los primeros segundos.
+    if(f==="A"&&!E.a&&Date.now()-t0pag>8000){var o=document.getElementById("oferta").getBoundingClientRect();if(o.top<innerHeight&&o.bottom>0)return;E.a=1;guardar(E);sal.hidden=false;}
+  }
   document.getElementById("rescSi").addEventListener("click",function(){E.r=Date.now();guardar(E);resc.hidden=true;tic();});
   document.getElementById("rescNo").addEventListener("click",function(){resc.hidden=true;});
   document.documentElement.addEventListener("mouseleave",function(e){if(e.clientY<=0)ofrecer();});
