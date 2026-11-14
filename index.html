@@ -167,6 +167,12 @@ h1 b{position:relative;display:inline-block;background:none;z-index:0}h1 b::befo
 .cerro{margin:12px 0 0;font-size:15px;color:#24363b;background:#E9EFEC;border-radius:12px;padding:10px 12px}
 .cerro a{color:#0a6e52;font-weight:800}
 </style>
+<script>
+// Pixel de Meta (Píxel de Hernan Marulanda)
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','237118744789303');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=237118744789303&ev=PageView&noscript=1"></noscript>
 </head>
 <body>
 <div class="wrap">
@@ -348,6 +354,16 @@ v.forEach(function(x){o.observe(x);});})();
 var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");o.unobserve(e.target);}});},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
 els.forEach(function(e){o.observe(e);});
 setTimeout(function(){els.forEach(function(e){e.classList.add("on");});},4000);})();
+</script>
+<script>
+(function(){function t(n,p){try{if(window.fbq)fbq('track',n,p||{});}catch(e){}}
+// Vio la oferta
+var o=document.getElementById('oferta'),v=0;if(o&&'IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!v){v=1;t('ViewContent',{content_name:'IA VideosPro',value:33,currency:'USD'});}});},{threshold:.4}).observe(o);}
+// Clic en comprar (va al pago de Hotmart)
+var b=document.getElementById('btnCompra');if(b)b.addEventListener('click',function(){t('InitiateCheckout',{content_name:'IA VideosPro',value:33,currency:'USD'});});
+// Vio la mitad del video
+var vd=document.querySelector('.video video'),m=0;if(vd)vd.addEventListener('timeupdate',function(){if(!m&&vd.duration&&vd.currentTime/vd.duration>.5){m=1;try{fbq('trackCustom','VSL50');}catch(e){}}});
+})();
 </script>
 </body>
 </html>
