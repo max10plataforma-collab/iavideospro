@@ -11,9 +11,9 @@ window.PAGINA = {
   MODO: "venta",            // "lista" = lista de fundadores · "venta" = botón de compra
   ENLACE_LISTA: "",         // WhatsApp o formulario. Vacío = pide responder LISTA por Instagram
   ENLACE_COMPRA: "https://pay.hotmart.com/X108494329U?off=4qwk6gw6",        // oferta de lanzamiento (USD 33)
-  ENLACE_NORMAL: "https://pay.hotmart.com/X108494329U?off=9rudqk7y",        // oferta normal (USD 47)
+  ENLACE_NORMAL: "https://pay.hotmart.com/X108494329U?off=4qwk6gw6",
   PRECIO: "USD 33",
-  PRECIO_NORMAL: "USD 47",
+  PRECIO_NORMAL: "USD 33",
   MINUTOS: 0,              // 0 = precio fijo, sin contador. Con minutos > 0 vuelve el contador por visitante
   _MIN_ANTES: 15,              // minutos de precio de lanzamiento por visitante (no se reinicia al recargar)
   MINUTOS_RESCATE: 10,      // segunda y última oportunidad, una sola vez
@@ -234,9 +234,9 @@ fbq('init','237118744789303');fbq('track','PageView');
       </div>
       <div data-modo="venta" hidden>
         <h2 style="color:#111">Entra al primer grupo.</h2>
-        <p class="antes" data-antes>Precio normal <s>USD 47</s></p>
+        <p class="antes" data-antes hidden style="display:none"></p>
         <div class="precio" data-precio>USD 33</div>
-        <span class="ahorro" data-ahorro>Lanzamiento · ahorras USD 14</span>
+        <span class="ahorro" data-ahorro hidden style="display:none"></span>
         <div data-conteo hidden>
           <p style="margin:14px 0 0;font-weight:800" data-ctxt>Este precio se acaba en:</p>
           <div class="conteo" role="timer" aria-live="off"><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>seg</span></div></div>
@@ -266,7 +266,7 @@ fbq('init','237118744789303');fbq('track','PageView');
 <div class="resc" id="resc" hidden role="dialog" aria-modal="true" aria-labelledby="rescT"><div class="rescC">
   <p class="rescK">Estuviste aquí</p>
   <h2 id="rescT">Esto es para ti.</h2>
-  <p>Te reactivo el precio de lanzamiento <b>una sola vez</b>: <b>USD 33</b> durante <b><span id="rescM">10</span> minutos</b>. Después queda en USD 47.</p>
+  <p>Te reactivo el precio de lanzamiento <b>una sola vez</b>: <b>USD 33</b> durante <b><span id="rescM">10</span> minutos</b>.</p>
   <a class="btn cta" id="rescSi" href="#oferta">Reactivar mi precio</a>
   <button type="button" id="rescNo">No, gracias</button>
 </div></div>
@@ -304,7 +304,7 @@ fbq('init','237118744789303');fbq('track','PageView');
   var ultima="";
   function pintar(F){
     var lanz=F.f==="A"||F.f==="C"||F.f==="F";
-    document.querySelectorAll("[data-precio]").forEach(function(e){e.textContent=lanz?(C.PRECIO||"USD 33"):(C.PRECIO_NORMAL||"USD 47");});
+    document.querySelectorAll("[data-precio]").forEach(function(e){e.textContent=lanz?(C.PRECIO||"USD 33"):(C.PRECIO_NORMAL||"USD 33");});
     document.querySelectorAll("[data-antes],[data-ahorro]").forEach(function(e){e.hidden=!lanz||FIJO;});
     document.querySelectorAll("[data-conteo]").forEach(function(e){e.hidden=!lanz||FIJO;});
     document.querySelectorAll("[data-cerro]").forEach(function(e){e.hidden=lanz;});
