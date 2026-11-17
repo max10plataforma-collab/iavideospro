@@ -10,10 +10,10 @@
 window.PAGINA = {
   MODO: "venta",            // "lista" = lista de fundadores · "venta" = botón de compra
   ENLACE_LISTA: "",         // WhatsApp o formulario. Vacío = pide responder LISTA por Instagram
-  ENLACE_COMPRA: "https://pay.hotmart.com/X108494329U?off=4qwk6gw6",        // oferta de lanzamiento (USD 33)
+  ENLACE_COMPRA: "https://pay.hotmart.com/X108494329U?off=4qwk6gw6",        // oferta de lanzamiento (USD 19,19)
   ENLACE_NORMAL: "https://pay.hotmart.com/X108494329U?off=4qwk6gw6",
-  PRECIO: "USD 33",
-  PRECIO_NORMAL: "USD 33",
+  PRECIO: "USD 19,19",
+  PRECIO_NORMAL: "USD 19,19",
   MINUTOS: 0,              // 0 = precio fijo, sin contador. Con minutos > 0 vuelve el contador por visitante
   _MIN_ANTES: 15,              // minutos de precio de lanzamiento por visitante (no se reinicia al recargar)
   MINUTOS_RESCATE: 10,      // segunda y última oportunidad, una sola vez
@@ -235,13 +235,13 @@ fbq('init','237118744789303');fbq('track','PageView');
       <div data-modo="venta" hidden>
         <h2 style="color:#111">Entra al primer grupo.</h2>
         <p class="antes" data-antes hidden style="display:none"></p>
-        <div class="precio" data-precio>USD 33</div>
+        <div class="precio" data-precio>USD 19,19</div>
         <span class="ahorro" data-ahorro hidden style="display:none"></span>
         <div data-conteo hidden>
           <p style="margin:14px 0 0;font-weight:800" data-ctxt>Este precio se acaba en:</p>
           <div class="conteo" role="timer" aria-live="off"><div><b data-m>00</b><span>min</span></div><div><b data-s>00</b><span>seg</span></div></div>
         </div>
-        <p class="cerro" data-cerro hidden>El precio de lanzamiento de USD 33 ya cerró para ti. ¿Lo querías? <a href="https://www.instagram.com/hernanmarulanda20/" target="_blank" rel="noopener">Escríbeme por Instagram</a> y miro si te lo puedo reactivar.</p>
+        <p class="cerro" data-cerro hidden>El precio de lanzamiento de USD 19,19 ya cerró para ti. ¿Lo querías? <a href="https://www.instagram.com/hernanmarulanda20/" target="_blank" rel="noopener">Escríbeme por Instagram</a> y miro si te lo puedo reactivar.</p>
         <a class="btn cta" id="btnCompra" href="#">Quiero entrar ahora</a>
         <p class="nota">Pago único en Hotmart. Acceso al instante en tu correo.</p>
         <div class="gar"><b>7<br>días</b><span><strong>Garantía total.</strong> Si no es para ti, pides el reembolso en Hotmart y listo.</span></div>
@@ -256,7 +256,7 @@ fbq('init','237118744789303');fbq('track','PageView');
     <details><summary>¿Pago algo más?</summary><p>El curso es un pago único. Claude se empieza gratis; para hacer videos puede hacer falta su plan pago (USD 20 al mes, se le paga a Anthropic). La voz clonada es opcional (ElevenLabs, desde USD 1 el primer mes).</p></details>
     <details><summary>Nunca he usado inteligencia artificial</summary><p>Arranca desde crear la cuenta e instalar la aplicación.</p></details>
     <details><summary>¿Y si no puedo ir a las sesiones en vivo?</summary><p>Quedan grabadas. Las fechas se avisan en el grupo de WhatsApp.</p></details>
-    <details><summary>¿Cuánto cuesta?</summary><p>USD 33, un solo pago. Sin mensualidades del curso y con garantía de 7 días.</p></details>
+    <details><summary>¿Cuánto cuesta?</summary><p>USD 19,19, un solo pago. Sin mensualidades del curso y con garantía de 7 días.</p></details>
   </section>
 
   <footer>
@@ -266,7 +266,7 @@ fbq('init','237118744789303');fbq('track','PageView');
 <div class="resc" id="resc" hidden role="dialog" aria-modal="true" aria-labelledby="rescT"><div class="rescC">
   <p class="rescK">Estuviste aquí</p>
   <h2 id="rescT">Esto es para ti.</h2>
-  <p>Te reactivo el precio de lanzamiento <b>una sola vez</b>: <b>USD 33</b> durante <b><span id="rescM">10</span> minutos</b>.</p>
+  <p>Te reactivo el precio de lanzamiento <b>una sola vez</b>: <b>USD 19,19</b> durante <b><span id="rescM">10</span> minutos</b>.</p>
   <a class="btn cta" id="rescSi" href="#oferta">Reactivar mi precio</a>
   <button type="button" id="rescNo">No, gracias</button>
 </div></div>
@@ -304,7 +304,7 @@ fbq('init','237118744789303');fbq('track','PageView');
   var ultima="";
   function pintar(F){
     var lanz=F.f==="A"||F.f==="C"||F.f==="F";
-    document.querySelectorAll("[data-precio]").forEach(function(e){e.textContent=lanz?(C.PRECIO||"USD 33"):(C.PRECIO_NORMAL||"USD 33");});
+    document.querySelectorAll("[data-precio]").forEach(function(e){e.textContent=lanz?(C.PRECIO||"USD 19,19"):(C.PRECIO_NORMAL||"USD 19,19");});
     document.querySelectorAll("[data-antes],[data-ahorro]").forEach(function(e){e.hidden=!lanz||FIJO;});
     document.querySelectorAll("[data-conteo]").forEach(function(e){e.hidden=!lanz||FIJO;});
     document.querySelectorAll("[data-cerro]").forEach(function(e){e.hidden=lanz;});
@@ -319,7 +319,7 @@ fbq('init','237118744789303');fbq('track','PageView');
       document.querySelectorAll("[data-conteo]").forEach(function(e){e.querySelector("[data-m]").textContent=p2(m);e.querySelector("[data-s]").textContent=p2(s);e.querySelector(".conteo").classList.toggle("urg",r<12e4);});
       document.getElementById("franjaT").textContent=p2(m)+":"+p2(s);document.getElementById("salT2").textContent=p2(m)+":"+p2(s);}
   }
-  if(FIJO){var sp=document.getElementById("salP");sp.textContent="Pago único de USD 33, con garantía de 7 días.";}
+  if(FIJO){var sp=document.getElementById("salP");sp.textContent="Pago único de USD 19,19, con garantía de 7 días.";}
   tic();setInterval(tic,1000);
   // Rescate: se ofrece una sola vez, cuando la persona ya perdió el precio y va de salida o regresa.
   var resc=document.getElementById("resc");document.getElementById("rescM").textContent=C.MINUTOS_RESCATE||10;
@@ -358,9 +358,9 @@ setTimeout(function(){els.forEach(function(e){e.classList.add("on");});},4000);}
 <script>
 (function(){function t(n,p){try{if(window.fbq)fbq('track',n,p||{});}catch(e){}}
 // Vio la oferta
-var o=document.getElementById('oferta'),v=0;if(o&&'IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!v){v=1;t('ViewContent',{content_name:'IA VideosPro',value:33,currency:'USD'});}});},{threshold:.4}).observe(o);}
+var o=document.getElementById('oferta'),v=0;if(o&&'IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!v){v=1;t('ViewContent',{content_name:'IA VideosPro',value:19.19,currency:'USD'});}});},{threshold:.4}).observe(o);}
 // Clic en comprar (va al pago de Hotmart)
-var b=document.getElementById('btnCompra');if(b)b.addEventListener('click',function(){t('InitiateCheckout',{content_name:'IA VideosPro',value:33,currency:'USD'});});
+var b=document.getElementById('btnCompra');if(b)b.addEventListener('click',function(){t('InitiateCheckout',{content_name:'IA VideosPro',value:19.19,currency:'USD'});});
 // Vio la mitad del video
 var vd=document.querySelector('.video video'),m=0;if(vd)vd.addEventListener('timeupdate',function(){if(!m&&vd.duration&&vd.currentTime/vd.duration>.5){m=1;try{fbq('trackCustom','VSL50');}catch(e){}}});
 })();
